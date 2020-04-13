@@ -1,0 +1,35 @@
+body {
+    background-color: rgb(0, 0, 0);
+    background-image: url("https://i.pinimg.com/originals/1d/f7/81/1df78147c4a8f5f19867a1a0cd0ea3c1.gif");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.landingContainer{
+    width: 40%;
+    height: 400px;
+    background-color: rgba(255, 255, 255, 0.829);
+    margin: 90px auto 0 auto;
+    border-radius: 5px;
+    padding: 25px;
+}
+
+.loginContainer {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.headerContainer {
+    width: 100%;
+    text-align: center;
+   letter-spacing: 5px;
+}
+
+input {
+    outline: none;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}

@@ -1,0 +1,212 @@
+html {
+  overflow: hidden;
+}
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+#title {
+  color: rgba(243, 243, 243, 0.719);
+  font-size: 100px;
+  background-color: rgba(255, 228, 196, 0);
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 50px;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.781);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.849);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.541);
+}
+
+::selection {
+  background: #4d5674b7; /* WebKit/Blink Browsers */
+  border-radius: 25px;
+}
+::-moz-selection {
+  background: #4d5674b7; /* Gecko Browsers */
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  max-height: 410px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.911);
+}
+
+#portfolioList {
+  overflow: hidden;
+  overflow-y: scroll;
+  border: solid 1px rgba(128, 128, 128, 0.575);
+}
+
+hr {
+  margin: 0;
+}
+
+.parentContainer {
+  min-width: 100%;
+  height: 550px;
+  background-color: rgba(255, 255, 255, 0.151);
+  z-index: 99;
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.377);
+}
+
+#leftContainer {
+  margin: 25px auto;
+  background-color: rgba(255, 255, 255, 0.829);
+  width: 100%;
+  height: 500px;
+  padding: 25px;
+  overflow: hidden;
+}
+
+li {
+  font-size: 14px;
+}
+
+#midContainer {
+  margin: 25px auto;
+  background-color: rgba(255, 255, 255, 0.829);
+  width: 100%;
+  height: 500px;
+}
+
+#rightContainer {
+  margin: 25px auto;
+  background-color: rgba(255, 255, 255, 0.829);
+  width: 100%;
+  height: 500px;
+  padding: 25px;
+}
+
+#chartDiv {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  margin: 10px auto;
+  border-radius: 5px;
+}
+
+.form-control {
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#welcome {
+  font-size: 24px;
+}
+
+.tickerButton {
+  width: 100%;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.829);
+  padding: 5px;
+  margin: 0;
+  float: left;
+  border: 1px solid rgb(255, 255, 255);
+  width: 100%;
+}
+
+.tickerButton:hover {
+  background-color: rgba(255, 255, 255, 0.829);
+  color: white;
+  transition: 1s;
+  text-shadow: 0px 0px 3px black;
+  border: 1px solid rgb(194, 194, 194);
+}
+
+.tickerPrice {
+  background-color: green;
+  height: 25px;
+  margin: 0;
+  width: 70px;
+  text-align: center;
+  border-radius: 2px;
+  color: white;
+}
+
+.tradeButtons {
+  width: 30%;
+  margin: 25px auto;
+}
+
+#geo {
+  height: 80px;
+  width: 80px;
+  border-radius: 180px;
+  margin: 0 auto 30px auto;
+  display: flex;
+  justify-self: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+#navBtn {
+  width: 100% !important;
+}
+
+.header {
+  width: 100%;
+  height: 50px;
+}
+
+ol {
+  max-height: 70px;
+  overflow: hidden;
+}
+
+.ais-Hits-item {
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.stock {
+  font-size: 10px;
+  margin: 0 auto;
+}
+
+#main {
+  z-index: 99;
+  margin: 0 auto;
+}
+
+.btn {
+  border-radius: 0px;
+}
+
+#portfolioValueDisplay { 
+  color: rgba(0, 128, 0, 0.63);
+  font-weight: bold;
+  font-size: x-large;
+}
+#buyingPowerDisplay {
+  color: rgba(10, 0, 148, 0.637);
+  font-size: large;
+}

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="public/assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <title>- Stonks -</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <div id="leftContainer">
+                    
+                    <img id="geo" src="https://media.giphy.com/media/u80odAyTwd4be/giphy.gif">
+                    <ul>
+                        <li><button type="button" style="width: 100%;" class="btn btn-light navBtn">My Stocks</button></li>
+                        <hr style="margin: 2px auto">
+                        <li><button type="button" style="width: 100%;"  class="btn btn-light navBtn">Buy Stocks</button></li>
+                        <hr style="margin: 2px auto">
+                        <li><button type="button" style="width: 100%;"  class="btn btn-light">FAQ</button></li>
+                        <hr style="margin: 2px auto">
+                        <li><button type="button" style="width: 100%;"  class="btn btn-light navBtn">Settings</button></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="midContainer">
+                    <input style="outline: none; width: 100%" class="form-control" type="text" placeholder="Search" aria-label="Search">
+                    
+                    <ul>
+                        <li>
+                            <div class="tickerButton">
+                                <p style="float: left;">AAPL</p>
+                                <div style="float: right;" class="tickerPrice">$108.97</div>
+                            </div>
+                            
+                        </li>
+                        
+                        <li>
+                            <div class="tickerButton">
+                                <p style="float: left;">HD</p>
+                                <div style="float: right;" class="tickerPrice">$197.52</div>
+                            </div>
+                            
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+            <div class="col-7">
+                <div id="rightContainer">
+                    <div class="row">
+                        <div style="float: left; text-align: left;" class="col-6">
+                            <h1 style="margin: 0;">$227.75</h1>
+                            <p>+5.17% TODAY<p>
+                        </div>
+                        <div style="float: right; text-align: right;" class="col-6">
+                            <h6 style="margin: 0"><strong>DMI</strong></h6>
+                            <p>Dunder Mifflen Paper Co.<p>
+                        </div>
+                    </div>
+                    <div class="row" id="chartDiv">
+
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <button type="button" class="btn btn-dark tradeButtons">Buy</button>
+                        <button type="button" class="btn btn-dark tradeButtons">Sell</button>
+                    </div>
+
+                </div>
+
+                
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let dailyValues = [];
+        let dateRange = [];
+
+        let ticker = "TSLA" //this will be dynamic --- just using a static ticker in the meantime
+        const apikey = '42E1XDPFEW98SC5T';
+        function getStockIntraDayInfo() {
+            //ajax request
+            const queryURL = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&interval=5min&apikey=${apikey}`
+            $.ajax({
+                url: queryURL,
+                method: 'GET',
+                dataType: "json",
+                contentType: "application/json",
+            }).then(function (data) {
+                // console.log(data);
+                dataArr = [data]
+                let symbolIntraDay = data['Meta Data']['2. Symbol'];
+                let interval = data['Meta Data']['3. Last Refreshed'];
+                let timeSeries = data['Time Series (Daily)'];
+
+                // console.log(timeSeries);
+                // console.log(symbolIntraDay);
+                // console.log (interval);
+                // //     timeSeries is an object, figure out how to loop through its properties
+                // let openValues = [];
+                for (let key in timeSeries) {
+                    // console.log(key);
+                    let value = timeSeries[key];
+                    // console.log(timeSeries[key]);
+                    let openValue = value["4. close"];
+                    // console.log("open value: ", openValue);
+                    dailyValues.push(openValue);
+                }
+                // console.log("All open values!");
+                // console.log(dailyValues.reverse());
+
+                for (let key in timeSeries) {
+
+                    // console.log(timeSeries[key]);
+                    // console.log("open value: ", openValue);
+                    dateRange.push(key);
+                }
+                console.log("All daily values!");
+                console.log(dateRange.reverse());
+                //     //each property is an object with an "open" property, containing a number we could use in our graph
+                //     //store those numbers into an array? But first check D3 to see how it wants the data it is charting formatted 
+            }).then(function (results) {
+                createChart(dailyValues, dateRange)
+
+            })
+
+        };
+
+        getStockIntraDayInfo();
+
+        function createChart(openValues, dateRange) {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+
+                    labels: dateRange,
+                    datasets: [{
+                        label: 'Daily Chart',
+                        data: openValues,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        fill: false,
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value, index, values) {
+                                    return '$' + value
+                                }
+                            }
+                        }]
+                    }
+                },
+                plugins: {
+                    zoom: {
+                        // Container for pan options
+                        pan: {
+                            // Boolean to enable panning
+                            enabled: true,
+
+                            // Panning directions. Remove the appropriate direction to disable
+                            // Eg. 'y' would only allow panning in the y direction
+                            // A function that is called as the user is panning and returns the
+                            // available directions can also be used:
+                            //   mode: function({ chart }) {
+                            //     return 'xy';
+                            //   },
+                            mode: 'xy',
+
+                            rangeMin: {
+                                // Format of min pan range depends on scale type
+                                x: null,
+                                y: null
+                            },
+                            rangeMax: {
+                                // Format of max pan range depends on scale type
+                                x: null,
+                                y: null
+                            },
+
+                            // On category scale, factor of pan velocity
+                            speed: 20,
+
+                            // Minimal pan distance required before actually applying pan
+                            threshold: 10,
+
+                            // Function called while the user is panning
+                            onPan: function ({ chart }) { console.log(`I'm panning!!!`); },
+                            // Function called once panning is completed
+                            onPanComplete: function ({ chart }) { console.log(`I was panned!!!`); }
+                        },
+
+                        // Container for zoom options
+                        zoom: {
+                            // Boolean to enable zooming
+                            enabled: true,
+
+                            // Enable drag-to-zoom behavior
+                            drag: true,
+
+                            // Drag-to-zoom effect can be customized
+                            // drag: {
+                            // 	 borderColor: 'rgba(225,225,225,0.3)'
+                            // 	 borderWidth: 5,
+                            // 	 backgroundColor: 'rgb(225,225,225)',
+                            // 	 animationDuration: 0
+                            // },
+
+                            // Zooming directions. Remove the appropriate direction to disable
+                            // Eg. 'y' would only allow zooming in the y direction
+                            // A function that is called as the user is zooming and returns the
+                            // available directions can also be used:
+                            //   mode: function({ chart }) {
+                            //     return 'xy';
+                            //   },
+                            mode: 'xy',
+
+                            rangeMin: {
+                                // Format of min zoom range depends on scale type
+                                x: null,
+                                y: null
+                            },
+                            rangeMax: {
+                                // Format of max zoom range depends on scale type
+                                x: null,
+                                y: null
+                            },
+
+                            // Speed of zoom via mouse wheel
+                            // (percentage of zoom on a wheel event)
+                            speed: 0.1,
+
+                            // On category scale, minimal zoom level before actually applying zoom
+                            sensitivity: 3,
+
+                            // Function called while the user is zooming
+                            onZoom: function ({ chart }) { console.log(`I'm zooming!!!`); },
+                            // Function called once zooming is completed
+                            onZoomComplete: function ({ chart }) { console.log(`I was zoomed!!!`); }
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>

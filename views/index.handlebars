@@ -1,0 +1,209 @@
+<div class="row">
+    <div id="main"></div>
+</div>
+<script>
+    container = document.getElementById("main")
+
+    var text = new Blotter.Text("- STONKS -", {
+        family: "sans-serif",
+        size: 120,
+        fill: "#fff",
+        paddingLeft: 80,
+        paddingRight: 80,
+        paddingTop: 0,
+        paddingBottom: 0,
+    })
+
+    var material = new Blotter.FliesMaterial();
+    material.uniforms.uPointCellWidth.value = .015;
+    material.uniforms.uPointRadius.value = .8;
+    material.uniforms.uSpeed.value = 1;
+
+    var blotter = new Blotter(material, {
+        texts: text
+    })
+
+    var scope = blotter.forText(text);
+    scope.appendTo(container)
+
+
+
+</script>
+
+<div class="container" style="margin: -20px auto">
+
+
+    <div class="row">
+        <div class="parentContainer">
+            <div class="col-2">
+                <div id="leftContainer">
+
+                    <img id="geo" src="https://media1.giphy.com/media/BGPSW6xEU9nG0/giphy-downsized-medium.gif">
+                    <ul>
+                        <li>
+                            <p><strong>Buying Power:</strong></p>
+                            <p id="buyingPowerDisplay"></p>
+                        </li>
+                        <li>
+                            <p><strong>Total Portfolio Value:</strong></p>
+                            <p id="portfolioValueDisplay"></p>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+            <div class="col-3">
+                <div id="midContainer">
+                    <div id="search-box"></div>
+
+
+                    <div id="hits"></div>
+                    <div id="pagination"></div>
+
+
+                    <script type="text/html" id="hit-template">
+        <div class="hit">
+        <p class="hit-name">
+            {{#helpers.highlight}}{ "attribute": "firstname" }{{/helpers.highlight}}
+            {{#helpers.highlight}}{ "attribute": "lastname" }{{/helpers.highlight}}
+        </p>
+        </div>
+
+        </script>
+                    <ul id="portfolioList">
+                        {{#each stock}}
+                        <li>
+                            <div class="tickerButton">
+                                <p id="tickerSymbolButton" style="float: left;">{{this.ticker}}</p>
+
+                                <div style="float: right;" class="sharesOwned">{{this.sharesOwned}}</div>
+                            </div>
+                        </li>
+                        {{/each}}
+
+                    </ul>
+
+
+                </div>
+            </div>
+            <div class="col-7">
+                <div id="rightContainer">
+                    <div class="row">
+                        <div style="float: left; text-align: left;" class="col-6">
+                            <h1 id="stockPriceHTML" style="margin: 0;">$227.75</h1>
+                            <p id="percentChange">+5.17% TODAY<p>
+                        </div>
+                        <div style="float: right; text-align: right;" class="col-6">
+                            <h1 id="tickerHTML" style="margin: 0"><strong>DMI</strong></h1>
+                            <p id="companyNameHTML">Dunder Mifflin Paper Co.<p>
+                        </div>
+                    </div>
+                    <div style="width: 400px; max-height: 300px; margin: 0 auto;"
+                        class="chartDiv d-flex justify-content-center">
+                        {{!-- <canvas class="charts" id="myChart" width="300" height="200"></canvas> --}}
+                        <canvas style="margin: 0 auto" class="charts" id="myChart2" width="700" height="500"></canvas>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <button type="button" id="buyBtn" class="btn btn-dark tradeButtons" data-toggle="modal"
+                            data-target="#buyModal">Buy</button>
+                        <button type="button" id="sellBtn" class="btn btn-dark tradeButtons" data-toggle="modal"
+                            data-target="#sellModal">Sell</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+{{!-- MODAL STUFF --}}
+{{!-- ----------- --}}
+{{!-- ----------- --}}
+<!-- Modal -->
+<div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Purchase Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to purchase one share of ______?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-dark" id="confirmBuy">Confirm Buy Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sell Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to sell one share of ______?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-dark" id="confirmSell">Confirm Sell Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{!--  --}}
+{{!--  --}}
+{{!--  --}}
+
+<script type="text/javascript">
+
+
+
+    // Make sure we wait to attach our handlers until the DOM is fully loaded.
+    $(() => {
+
+        $(".create-form").on("submit", function (event) {
+            // Make sure to preventDefault on a submit event.
+            console.log("this is working!")
+            event.preventDefault();
+
+            // [name=plan] will find an element with a "name" attribute equal to the string "plan"
+            let newBurger = {
+                burger_name: $("#ca").val().trim(),
+
+
+            };
+
+            // Send the POST request.
+            $.ajax("/api/stocks", {
+                type: "POST",
+                data: newBurger
+            }).then(
+                () => {
+                    location.reload();
+                    console.log("created new plan");
+
+                    // Reload the page to get the updated list
+                }
+            );
+        });
+    });
+</script>
